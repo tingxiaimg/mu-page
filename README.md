@@ -1,4 +1,4 @@
-# ![mu-page](https://github.com/tingxiaimg/mu-page/blob/master/examples/assets/logo.png)
+# ![mu-page](https://s.gravatar.com/avatar/49900a7c5c029bbc47708f013dd7404c?s=80)
 
 # mu-page
 
