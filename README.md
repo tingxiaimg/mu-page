@@ -1,4 +1,4 @@
-# mu-page
+# mu-page ![mu-page](https://github.com/tingxiaimg/mu-page/blob/master/src/assets/logo.png)
 
 ## 构建工程
 ```
@@ -20,6 +20,10 @@ npm run build:lib
 ```javascript
 import muPage from 'mu-page'
 ```
+```
+<script src="./muPage.umd.js"></script>
+```
+
 * 在vue中使用
 ``` javascript
 Vue.use(MuPage);
@@ -35,6 +39,7 @@ new Vue({
   render: h => h(App),
 }).$mount('#app');
 ```
+
 * App.vue
 ``` vue
 <template>
