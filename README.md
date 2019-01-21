@@ -1,4 +1,4 @@
-# ![mu-page](https://github.com/tingxiaimg/mu-page/blob/master/src/assets/logo.png)
+# ![mu-page](https://github.com/tingxiaimg/mu-page/blob/master/examples/assets/logo.png)
 
 # mu-page
 
