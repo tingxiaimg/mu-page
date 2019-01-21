@@ -1,0 +1,2 @@
+(("undefined"!==typeof self?self:this)["webpackJsonpmuPage"]=("undefined"!==typeof self?self:this)["webpackJsonpmuPage"]||[]).push([[8],{cf05:function(e,f,p){e.exports=p.p+"img/logo.0e5b2641.png"}}]);
+//# sourceMappingURL=muPage.umd.min.8.js.map
