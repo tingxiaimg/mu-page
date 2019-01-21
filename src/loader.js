@@ -33,10 +33,10 @@ export default function loader (file, errorPage = error, name) {
 
 function fileLoad(path, errorPage = error, name) {
   if (process.env.NODE_ENV === 'development') {
-    let component = require(`${path}`).default;
+    let component = require(path).default;
     return objectLoad(component, name)
   } else { // process.env.NODE_ENV === 'production'
-    return promiseLoad(import(`${path}`). errorPage, name)
+    return promiseLoad(import(path), errorPage, name)
   }
 }
 
