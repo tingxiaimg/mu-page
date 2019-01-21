@@ -1,4 +1,4 @@
-# mu-page
+# mu-page ![mu-page](https://github.com/tingxiaimg/mu-page/blob/master/src/assets/logo.png)
 
 ## 构建工程
 ```
