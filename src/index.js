@@ -83,7 +83,7 @@ export default class MuPage {
   getInfo(app) {
     if (app) {
       let name = app.$options.name;
-      if (name && this._apps.hasOwnProperty(name) && this._muPageInfos.hasOwnProperty(name)) {
+      if (this.isRegister(name)) {
         return this._muPageInfos[name] || {name: name, data: null}
       }
     }
@@ -97,12 +97,19 @@ export default class MuPage {
     return Boolean(this._components && this._components[name])
   }
 
-  init(name, app) {
+  init(app) {
     if (process.env.NODE_ENV !== 'production' && !install.installed) {
       throw new Error(`[muPage Error] not installed. Make sure to call \`Vue.use(MuPagePlugin)\` ` +
         `before creating root instance.`)
     }
-    this._apps[name] = app
+    let name = app.$options.name;
+    if (this.isRegister(name)) {
+      this._apps[name] = app
+    }
+  }
+
+  isHomePage (name) {
+    return Boolean(name && this._homePage && this._homePage.name === name)
   }
 
   close(name) {// 关闭页面
@@ -112,12 +119,12 @@ export default class MuPage {
       }
       name = this._current.name
     }
-    if (this._homePage && this._homePage.name === name) {
+    if (this.isHomePage(name)) {
       return
     }
     if (name === '*') {
       for (let key in this._muPageInfos) {
-        if (this._homePage && key === this._homePage.name){
+        if (this.isHomePage(key)){
           continue
         }
         if(this._muPageInfos.hasOwnProperty(key)) {
@@ -160,7 +167,7 @@ export default class MuPage {
     if (!this._current) {
       return
     }
-    if (this._homePage && this._current.name === this._homePage.name) {
+    if (this.isHomePage(this._current.name)) {
       this._visitedViews.splice(0, this._visitedViews.length)
     }
     this._visitedViews = this._visitedViews.filter(v => v.name === this._current.name);
@@ -178,7 +185,7 @@ export default class MuPage {
   // 显示界面，不刷新已有界面
   open(name) {
     if (name) {
-      if (this._homePage && name === this._homePage.name) {
+      if (this.isHomePage(name)) {
         this._current = this._homePage;
         return
       }
@@ -189,7 +196,7 @@ export default class MuPage {
           }
         })
       } else {
-        if (this._components[name]) {
+        if (this.isRegister(name)) {
           let view = this._components[name];
           this._visitedViews.push(view);
           this._current = view
@@ -209,7 +216,7 @@ export default class MuPage {
     if (!name) {
       this.openHomePage(data)
     } else {
-      if (this._homePage && name === this._homePage.name) {
+      if (this.isHomePage(name)) {
         this.removeInstance(name);
         let muPageInfo = this._muPageInfos[name];
         if(muPageInfo) {
@@ -230,7 +237,7 @@ export default class MuPage {
           }
         });
       } else {
-        if (!this._components[name]) {
+        if (!this.isRegister(name)) {
           throw new Error('[muPage error] component '+ name +' not register!')
         }
         let view = this._components[name];

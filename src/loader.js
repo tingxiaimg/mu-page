@@ -6,44 +6,64 @@
 import error from './components/error.vue'
 
 export default function loader (file, errorPage = error, name) {
+  if (!errorPage) {
+    errorPage = error
+  }
   if (!file) {
-    let error = new Error(`[muPage error] page ${name} not found !`);
+    if (process.env.NODE_ENV === 'development') {
+      throw new Error(`[muPage error] page ${name} not found !`);
+    } else {
+      return errorPage
+    }
+  }
+  if (typeof file === 'string') {
+    return fileLoad(file, errorPage, name)
+  } else if (file instanceof Promise) {
+    return promiseLoad(file, errorPage, name)
+  } else if (typeof file === 'object') {
+    if (file.default) {
+      return objectLoad(file.default, name)
+    } else {
+      return objectLoad(file, name)
+    }
+  } else {
     return errorPage
   }
+}
+
+function fileLoad(path, errorPage = error, name) {
   if (process.env.NODE_ENV === 'development') {
-    let component = require(`@/${file}`).default;
-    if (name) {
-      component.name = name
-    }
-    component.beforeCreate.push(bl(component.name));
-    return component
-  } else if (process.env.NODE_ENV === 'production') {
-    if (!errorPage) {
-      errorPage = error
-    }
-    return () => new Promise((resolve, reject) => {
-      import(`@/${file}`).then(mo => {
-        let component = mo.default;
-        if (name) {
-          component.name = name
-        }
-        if (component.beforeCreate) {
-          let bf = component.beforeCreate;
-          let blf = bl(component.name);
-          component.beforeCreate = function () {
-            blf.bind(this)();
-            bf.bind(this)();
-          }
-        } else {
-          component.beforeCreate = bl(component.name)
-        }
-        resolve(mo)
-      }).catch(error => {
+    let component = require(`${path}`).default;
+    return objectLoad(component, name)
+  } else { // process.env.NODE_ENV === 'production'
+    return promiseLoad(import(`${path}`). errorPage, name)
+  }
+}
+
+function objectLoad(ob, name) {
+  if (name) {
+    ob.name = name
+  }
+  return ob
+}
+
+function promiseLoad(pro, errorPage = error, name) {
+  return () => new Promise((resolve, reject) => {
+    pro.then(mo => {
+      let component = mo.default;
+      if (name) {
+        component.name = name
+      }
+      resolve(mo)
+    }).catch(error => {
+      if (process.env.NODE_ENV === 'development') {
+        reject(error)
+      } else {
         console.error(`[muPage error] page ${name} not found !\n` + error);
         resolve(errorPage)
-      })
+      }
     })
-  }
+  })
 }
 
 function bl (name) {

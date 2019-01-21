@@ -22,6 +22,9 @@ export function install (Vue) {
       } else {
         this._muPageRoot = (this.$parent && this.$parent._muPageRoot) || this
       }
+      if (this._muPageRoot && this._muPageRoot._muPage) {
+        this._muPageRoot._muPage.init(this)
+      }
     },
     destroyed () {
       if (this._muPageRoot && this._muPageRoot._muPage) {
