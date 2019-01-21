@@ -75,9 +75,19 @@ export default {
 
 | 名称 | 类型 | 说明 |
 |:---|----|----|
-|components|&lt;object&gt;|注册页面 页面名-页面路径|
+|components|&lt;object&gt;|注册页面 页面名-页面参数|
 |homePage|&lt;string&gt;|主页名|
 |errorPage|&lt;object&gt;|错误页面 vue组件|
+```javascript
+{
+  components: {
+    'page1': import('./view.vue'),
+    'page2': '@/view.vue',
+    'page3': required('./view.vue')
+  },
+  homePage: 'page1'
+}
+```
 ### 实例方法
 
 | 名称 | 参数 | 返回值 | 说明 |
