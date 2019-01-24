@@ -1,6 +1,5 @@
-# ![mu-page](https://s.gravatar.com/avatar/49900a7c5c029bbc47708f013dd7404c?s=80)
-
-# mu-page
+# mu-page ![mu-page](https://s.gravatar.com/avatar/49900a7c5c029bbc47708f013dd7404c?s=80)
+mu-page 为vue插件，在多标签页场景下使用，可以保存标签页状态。
 
 ## 构建工程
 ```
@@ -30,11 +29,11 @@ import muPage from 'mu-page'
 ``` javascript
 Vue.use(MuPage);
 const muPage = new MuPage({components: {
-  test1: 'testViews/test1.vue',
-  test2: 'testViews/test2.vue',
-  test3: 'testViews/test3.vue',
-  test4: 'testViews/test4.vue',
-  test5: 'testViews/test5.vue'
+  test1: import('./testViews/test1.vue'),
+  test2: import('./testViews/test2.vue'),
+  test3: import('./testViews/test3.vue'),
+  test4: import('./testViews/test4.vue'),
+  test5: import('./testViews/test5.vue')
 }, homePage: 'test1', errorPage: errorPage});
 new Vue({
   muPage,
