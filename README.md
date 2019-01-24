@@ -1,4 +1,4 @@
-# mu-page ![mu-page](https://s.gravatar.com/avatar/49900a7c5c029bbc47708f013dd7404c?s=80)
+# ![mu-page](https://s.gravatar.com/avatar/49900a7c5c029bbc47708f013dd7404c?s=80) mu-page
 mu-page 为vue插件，在多标签页场景下使用，可以保存标签页状态。
 
 ## 构建工程
