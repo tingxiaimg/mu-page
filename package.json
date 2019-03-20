@@ -1,6 +1,6 @@
 {
   "name": "mu-page",
-  "version": "0.1.02",
+  "version": "0.1.03",
   "private": false,
   "main": "dist/muPage.umd.js",
   "author": "tingxia <tingxia@live.com> (https://github.com/tingxiaimg)",
@@ -14,7 +14,7 @@
     "email": "tingxia@live.com"
   },
   "license": "Apache-2.0",
-  "files": ["dist/*.js"],
+  "files": ["dist/*.js", "src"],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
