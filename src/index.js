@@ -6,9 +6,68 @@
 import { install, _Vue } from './install';
 import loader from './loader';
 
-export default class MuPage {
+export default class MuPage{
   static install = null;
   static version = null;
+
+  constructor(options = {}){
+    let inner = new MuPageInner(options);
+    this.init = app => {
+      inner.init(app)
+    };
+    this.getInfo = app => {
+      return inner.getInfo(app)
+    };
+    this.destroy = app => {
+      inner.destroy(app)
+    };
+
+    // 方法
+    this.open = name => {
+      inner.open(name)
+    };
+    this.push = (name, data) => {
+      inner.push(name, data)
+    };
+    this.close = name => {
+      inner.close(name)
+    };
+    this.closeOther = () => {
+      inner.closeOther()
+    };
+    this.isOpen = name => {
+      return inner.isOpen(name)
+    };
+    this.openHomePage = data => {
+      inner.openHomePage(data)
+    };
+    this.isRegister = name => {
+      return inner.isRegister(name)
+    };
+    // 属性
+    Object.defineProperty(this, 'current', {
+      get () { return inner.current },
+      set () { throw new Error('current readonly')}
+    });
+    Object.defineProperty(this, 'homePage', {
+      get () { return inner.homePage },
+      set () { throw new Error('homePage readonly')}
+    });
+    Object.defineProperty(this, 'visitedViews', {
+      get () { return inner.visitedViews },
+      set () { throw new Error('visitedViews readonly')}
+    });
+    Object.defineProperty(this, 'apps', {
+      get () { return inner.apps },
+      set () { throw new Error('apps readonly')}
+    });
+    if (window) {
+      window.$muPage = this
+    }
+  }
+}
+
+class MuPageInner {
 
   _vm = null; // 根组件
   _apps = {}; // 组件实例
@@ -59,9 +118,6 @@ export default class MuPage {
     if (this._homePage) {
       this.openHomePage()
     }
-    if (window) {
-      window.$muPage = this
-    }
   }
 
   get current() {
@@ -90,6 +146,22 @@ export default class MuPage {
     return {name: null, data: null}
   }
 
+  send(sender, name, message) {
+    if (sender && name) {
+      if (this.isRegister(name) && this.isOpen(name) && this._apps[name]) {
+        // 通知处理
+        try{
+          let app = this._apps[name];
+          if(app.handleMuMessage && typeof app.handleMuMessage === 'function' ){
+            app.handleMuMessage({sender : sender, message : message})
+          }
+        } catch (e) {
+          console.warn(`[muPage Warn] send to ${name} has error`, e)
+        }
+      }
+    }
+  }
+
   isRegister(name) {
     if (!name || name.trim() === '') {
       return false
@@ -102,9 +174,13 @@ export default class MuPage {
       throw new Error(`[muPage Error] not installed. Make sure to call \`Vue.use(MuPagePlugin)\` ` +
         `before creating root instance.`)
     }
+    let _this = this
     let name = app.$options.name;
     if (this.isRegister(name)) {
-      this._apps[name] = app
+      this._apps[name] = app;
+      app.$muSend = (receive, message = '') => {
+        _this.send(app, receive, message)
+      }
     }
   }
 
@@ -124,10 +200,10 @@ export default class MuPage {
     }
     if (name === '*') {
       for (let key in this._muPageInfos) {
-        if (this.isHomePage(key)){
-          continue
-        }
-        if(this._muPageInfos.hasOwnProperty(key)) {
+        if(this._muPageInfos.hasOwnProperty(key)){
+          if (this.isHomePage(key)){
+            continue
+          }
           this.removeInstance(key);
           this._muPageInfos[key].data = null
         }
@@ -181,6 +257,19 @@ export default class MuPage {
         this._muPageInfos[key].data = null
       }
     }
+  }
+
+  // 判断是否打开
+  isOpen(name) {
+    if (name) {
+      if (this.isHomePage(name)) {
+        return true;
+      }
+      if (this._visitedViews.some(v => v.name === name)) {
+        return true;
+      }
+    }
+    return false;
   }
   // 显示界面，不刷新已有界面
   open(name) {

@@ -25,6 +25,7 @@
     </div>
     <div>
       <span>打开页面：</span>
+      <span>{{$muPage.homePage.name}}</span>
       <span v-for="item in visitedViews">{{item.name}}</span>
     </div>
     <div style="background-color: #cccccc; border: 1px solid #4cce72">

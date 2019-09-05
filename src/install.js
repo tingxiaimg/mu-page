@@ -30,6 +30,11 @@ export function install (Vue) {
       if (this._muPageRoot && this._muPageRoot._muPage) {
         this._muPageRoot._muPage.destroy(this.$options.name)
       }
+    },
+    methods: {
+      handleMuMessage(message){
+        // default handler
+      }
     }
   });
 
