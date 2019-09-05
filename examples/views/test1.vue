@@ -7,7 +7,7 @@
       <input type="text" name="send" v-model="sendMessage"/>
     </label>
     <button @click="send">send to text2</button>
-    <button @click="openHomePage">主页</button>
+    <span @click="send">{{returnMsg}}</span>
   </div>
 </template>
 
@@ -17,15 +17,13 @@ export default {
   name: 'test1',
   data() {
     return {
-      sendMessage: ''
+      sendMessage: '',
+      returnMsg: ''
     }
   },
   methods: {
     send (){
-      this.$muSend('test2', this.sendMessage);
-    },
-    openHomePage (){
-      this.$muPage.openHomePage();
+      this.returnMsg = this.$muSend('test2', this.sendMessage);
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
     <i :class="showClass" @click="goto">
         <slot :value="to">
-            <span >{{to || 'mu'}}</span>
+            <template v-html="to || '<span>MU</span>'"></template>
         </slot>
     </i>
 </template>
