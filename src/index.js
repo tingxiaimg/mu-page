@@ -153,13 +153,14 @@ class MuPageInner {
         try{
           let app = this._apps[name];
           if(app.handleMuMessage && typeof app.handleMuMessage === 'function' ){
-            app.handleMuMessage({sender : sender, message : message})
+            return app.handleMuMessage({sender : sender, message : message})
           }
         } catch (e) {
           console.warn(`[muPage Warn] send to ${name} has error`, e)
         }
       }
     }
+    return null;
   }
 
   isRegister(name) {
@@ -179,7 +180,7 @@ class MuPageInner {
     if (this.isRegister(name)) {
       this._apps[name] = app;
       app.$muSend = (receive, message = '') => {
-        _this.send(app, receive, message)
+        return _this.send(app, receive, message)
       }
     }
   }

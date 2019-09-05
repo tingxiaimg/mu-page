@@ -34,6 +34,7 @@ export function install (Vue) {
     methods: {
       handleMuMessage(message){
         // default handler
+        return null;
       }
     }
   });
