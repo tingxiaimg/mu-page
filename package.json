@@ -1,6 +1,6 @@
 {
   "name": "mu-page",
-  "version": "0.1.03",
+  "version": "0.1.04",
   "private": false,
   "main": "dist/muPage.umd.js",
   "author": "tingxia <tingxia@live.com> (https://github.com/tingxiaimg)",
