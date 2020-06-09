@@ -120,3 +120,4 @@ export default {
 ### vue实例注入方法
 
 * handleMuMessage 处理muSend 发送的消息，可重写。自动调用，一个参数{sender: &lt;vueComponent&gt;,message: &lt;any&gt;};可返回任意值。
+* onMuShow 界面重新激活触发事件。

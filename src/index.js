@@ -152,7 +152,7 @@ class MuPageInner {
         // 通知处理
         try{
           let app = this._apps[name];
-          if(app.handleMuMessage && typeof app.handleMuMessage === 'function' ){
+          if(isFunction(app.handleMuMessage)){
             return app.handleMuMessage({sender : sender, message : message})
           }
         } catch (e) {
@@ -371,6 +371,10 @@ class MuPageInner {
 // 统一key格式
 const makeKey = (name) => {
   return 'muPage-'+ name + '-' + 'tx'
+};
+
+const isFunction = (fc) => {
+  return (fc && typeof fc === 'function')
 };
 
 MuPage.install = install;

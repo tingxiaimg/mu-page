@@ -33,6 +33,10 @@ export default {
       if (name) {
         if (this.$muPage.apps[name]) {
           vnode.componentInstance = this.$muPage.apps[name];
+          let focus = this.$muPage.apps[name].onMuShow;
+          if(focus && typeof focus === "function"){
+            this.$muPage.apps[name].onMuShow();
+          }
         }
         if (this.$muPage.isRegister(name)) {
           vnode.data.keepAlive = true

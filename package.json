@@ -8,13 +8,21 @@
     "type": "git",
     "url": "https://github.com/tingxiaimg/mu-page.git"
   },
-  "keywords": ["vue", "Multiple Pages", "muPage", "page"],
+  "keywords": [
+    "vue",
+    "Multiple Pages",
+    "muPage",
+    "page"
+  ],
   "bugs": {
     "url": "https://github.com/tingxiaimg/mu-page/issues",
     "email": "tingxia@live.com"
   },
   "license": "Apache-2.0",
-  "files": ["dist/*.js", "src"],
+  "files": [
+    "dist/*.js",
+    "src"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
